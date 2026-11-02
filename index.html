@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Agatita ❤️ | Nuestro Libro de Dibujos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Tipografías manuscritas y dulces -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --paper-bg: #fdfbf7;
+            --paper-edge: #eaddcf;
+            --cover-rose: #c96a7b;
+            --cover-dark: #8e3b4b;
+            --gold-accent: #e5b869;
+            --ink-color: #3d312a;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle at center, #2b1d28 0%, #150e17 100%);
+            color: var(--ink-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .font-hand {
+            font-family: 'Caveat', cursive;
+        }
+
+        .font-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Textura de papel de cuaderno de dibujo */
+        .sketch-paper {
+            background-color: var(--paper-bg);
+            background-image: 
+                radial-gradient(#e6ccb2 0.65px, transparent 0.65px), 
+                radial-gradient(#e6ccb2 0.65px, #fdfbf7 0.65px);
+            background-size: 26px 26px;
+            background-position: 0 0, 13px 13px;
+            box-shadow: 
+                inset 0 0 40px rgba(212, 180, 153, 0.35),
+                0 15px 35px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Textura de la portada del libro */
+        .book-cover-texture {
+            background: linear-gradient(135deg, #b85668 0%, #833242 55%, #5c202c 100%);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.35),
+                inset 8px 0 15px rgba(255, 255, 255, 0.12),
+                0 20px 45px rgba(0, 0, 0, 0.65);
+            border-right: 6px solid #f4ebd9;
+            border-bottom: 6px solid #e2d4bc;
+        }
+
+        /* Cinta adhesiva tipo Scrapbook (Washi Tape) */
+        .washi-tape-top-left {
+            position: absolute;
+            top: -12px;
+            left: -18px;
+            width: 85px;
+            height: 26px;
+            background: rgba(247, 202, 201, 0.78);
+            transform: rotate(-32deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            border-left: 2px dashed rgba(255,255,255,0.6);
+            border-right: 2px dashed rgba(255,255,255,0.6);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .washi-tape-top-right {
+            position: absolute;
+            top: -12px;
+            right: -18px;
+            width: 85px;
+            height: 26px;
+            background: rgba(253, 224, 141, 0.78);
+            transform: rotate(32deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            border-left: 2px dashed rgba(255,255,255,0.6);
+            border-right: 2px dashed rgba(255,255,255,0.6);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Efecto de giro de página 3D */
+        .book-perspective {
+            perspective: 1800px;
+        }
+
+        .page-transition {
+            transition: transform 0.55s cubic-bezier(0.34, 1.15, 0.64, 1), opacity 0.4s ease;
+            transform-style: preserve-3d;
+        }
+
+        .page-flip-next {
+            animation: flipNextAnim 0.52s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        .page-flip-prev {
+            animation: flipPrevAnim 0.52s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes flipNextAnim {
+            0% { transform: rotateY(0deg) scale(1); opacity: 1; }
+            45% { transform: rotateY(-65deg) scale(0.96); opacity: 0.4; }
+            55% { transform: rotateY(65deg) scale(0.96); opacity: 0.4; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+
+        @keyframes flipPrevAnim {
+            0% { transform: rotateY(0deg) scale(1); opacity: 1; }
+            45% { transform: rotateY(65deg) scale(0.96); opacity: 0.4; }
+            55% { transform: rotateY(-65deg) scale(0.96); opacity: 0.4; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+
+        /* Espiral / Lomo de cuaderno a la izquierda */
+        .notebook-rings {
+            position: absolute;
+            left: -14px;
+            top: 28px;
+            bottom: 28px;
+            width: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .ring {
+            width: 26px;
+            height: 11px;
+            background: linear-gradient(90deg, #9c7a44, #f7d996, #8f6d38);
+            border-radius: 99px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Animación flotante para partículas */
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.65; }
+            85% { opacity: 0.65; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp linear infinite;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(235, 168, 181, 0.45);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="relative flex flex-col justify-between min-h-screen">
+
+    <!-- Fondo de partículas románticas (Corazones, Estrellas, Girasoles) -->
+    <div id="particles-container" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+    <!-- Barra Superior -->
+    <header class="relative z-20 w-full max-w-5xl mx-auto px-4 pt-4 pb-2 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-full bg-rose-500/20 border border-rose-300/40 flex items-center justify-center text-rose-300 shadow-inner">
+                <i class="ph-fill ph-book-open-text text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-rose-100 font-bold text-base sm:text-lg leading-tight flex items-center gap-1.5">
+                    Alan de Agatita • Nuestro Universo <span class="text-rose-400">❤️</span>
+                </h1>
+                <p class="text-rose-200/70 text-xs font-medium">Nuestro libro de dibujos y cartas</p>
+            </div>
+        </div>
+
+        <!-- Botón de Sonido Minimalista -->
+        <div class="flex items-center gap-2">
+            <button id="sound-btn" onclick="toggleSound()" class="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-rose-200 border border-white/15 transition shadow-xs" title="Activar/Desactivar sonido de páginas">
+                <i id="sound-icon" class="ph-fill ph-speaker-high text-base"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal del Libro 3D -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center px-3 sm:px-6 py-2 w-full max-w-4xl mx-auto book-perspective">
+        
+        <!-- VISTA 1: PORTADA DEL LIBRO -->
+        <div id="cover-view" class="w-full max-w-md mx-auto my-auto transition-all duration-500">
+            <div class="relative book-cover-texture rounded-r-3xl rounded-l-lg p-7 sm:p-10 text-center border-l-8 border-[#471620] cursor-pointer group" onclick="openBook()">
+                <!-- Esquinas doradas decorativas -->
+                <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 border-amber-300/60 rounded-tr-lg"></div>
+                <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 border-amber-300/60 rounded-br-lg"></div>
+                
+                <!-- Cinta marcapáginas -->
+                <div class="absolute -bottom-5 left-10 w-6 h-12 bg-amber-400 shadow-md clip-ribbon"></div>
+
+                <!-- Marco interior de la portada -->
+                <div class="border-2 border-amber-200/40 rounded-2xl p-6 sm:p-8 bg-black/15 backdrop-blur-xs">
+                    <span class="inline-block px-3 py-1 rounded-full bg-amber-300/20 border border-amber-300/40 text-amber-200 text-xs tracking-widest uppercase font-semibold mb-4">
+                        Edición Especial • 22 Recuerdos
+                    </span>
+
+                    <h2 class="font-script text-4xl sm:text-5xl text-amber-100 drop-shadow-md mb-2">
+                        Para mi Agatita
+                    </h2>
+                    <p class="font-hand text-xl sm:text-2xl text-rose-200 mb-6">
+                        "Now I need no space, got Youniverse" ✨
+                    </p>
+
+                    <!-- Ilustración central de portada (Gatitos, Luna y Girasol) -->
+                    <div class="w-40 h-40 sm:w-44 sm:h-44 mx-auto my-4 rounded-full bg-[#fdfbf7] p-3 shadow-inner border-4 border-amber-300/70 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition duration-300">
+                        <svg viewBox="0 0 200 200" class="w-full h-full">
+                            <!-- Cielo estrellado suave -->
+                            <circle cx="100" cy="100" r="95" fill="#fff8eb"/>
+                            <!-- Luna creciente -->
+                            <path d="M135 40 A35 35 0 1 0 165 95 A28 28 0 1 1 135 40 Z" fill="#f59e0b" opacity="0.85"/>
+                            <!-- Estrellitas -->
+                            <circle cx="55" cy="55" r="3" fill="#f59e0b"/>
+                            <circle cx="85" cy="38" r="2.5" fill="#ec4899"/>
+                            <circle cx="45" cy="90" r="2" fill="#f59e0b"/>
+                            <!-- Dos gatitos abrazados -->
+                            <!-- Gatito 1 (Gris/Blanco) -->
+                            <path d="M65 155 C60 120, 95 120, 95 155 Z" fill="#6b7280"/>
+                            <circle cx="80" cy="112" r="18" fill="#6b7280"/>
+                            <polygon points="65,102 68,85 78,98" fill="#6b7280"/>
+                            <polygon points="95,102 92,85 82,98" fill="#6b7280"/>
+                            <!-- Gatito 2 (Naranja/Crema) -->
+                            <path d="M98 155 C98 122, 132 122, 130 155 Z" fill="#f97316"/>
+                            <circle cx="112" cy="116" r="17" fill="#f97316"/>
+                            <polygon points="99,106 102,90 110,101" fill="#f97316"/>
+                            <polygon points="126,106 123,90 115,101" fill="#f97316"/>
+                            <!-- Colitas formando un corazón -->
+                            <path d="M66 150 Q42 125 65 112" stroke="#6b7280" stroke-width="5" fill="none" stroke-linecap="round"/>
+                            <path d="M128 150 Q152 125 130 112" stroke="#f97316" stroke-width="5" fill="none" stroke-linecap="round"/>
+                            <!-- Corazón central flotando -->
+                            <path d="M96 76 C96 70, 86 66, 86 74 C86 80, 96 86, 96 90 C96 86, 106 80, 106 74 C106 66, 96 70, 96 76 Z" fill="#e11d48"/>
+                            <!-- Girasol pequeño -->
+                            <circle cx="145" cy="148" r="12" fill="#facc15"/>
+                            <circle cx="145" cy="148" r="6" fill="#78350f"/>
+                        </svg>
+                    </div>
+
+                    <p class="text-rose-100/90 text-xs sm:text-sm leading-relaxed mb-6">
+                        Cada dibujo, cada girasol y cada carta que hice pensando en ti, guardados para siempre en nuestro pequeño universo.
+                    </p>
+
+                    <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-amber-300 to-amber-400 text-rose-950 font-bold text-sm shadow-lg group-hover:shadow-amber-300/30 group-hover:scale-105 transition">
+                        <span>Abrir Nuestro Libro</span>
+                        <i class="ph-bold ph-arrow-right"></i>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-rose-200/20 text-amber-200/90 font-hand text-xl">
+                        Att: Alan de Agatita 🐾🌻
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA 2: PÁGINAS INTERIORES DEL LIBRO -->
+        <div id="book-view" class="hidden w-full max-w-3xl mx-auto my-auto">
+            <div id="book-player" class="mb-4 rounded-2xl border border-amber-900/15 bg-[#f7efe5]/90 p-3 shadow-sm" aria-label="Reproductor de nuestro libro">
+                <div class="flex items-center gap-2 mb-1.5 text-amber-900">
+                    <i class="ph-fill ph-music-notes text-rose-500"></i>
+                    <p id="book-song-title" class="text-xs font-bold">Nuestra música</p>
+                </div>
+                <audio id="book-song" class="w-full h-8" controls preload="metadata"></audio>
+            </div>
+            <div id="page-card" class="relative sketch-paper rounded-r-3xl rounded-l-xl p-5 sm:p-8 md:p-10 border-r-8 border-b-8 border-[#e5d4c0] page-transition">
+                
+                <!-- Anillos del cuaderno de dibujo -->
+                <div class="notebook-rings hidden sm:flex">
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                </div>
+
+                <!-- Encabezado de la Página -->
+                <div class="flex items-center justify-between border-b border-amber-900/15 pb-3 mb-5">
+                    <div class="flex items-center gap-2">
+                        <span id="page-badge" class="px-3 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold text-xs border border-rose-200">
+                            Página 1 de 22
+                        </span>
+                        <span id="page-theme-tag" class="text-xs font-semibold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200">
+                            🌻 Girasoles
+                        </span>
+                    </div>
+
+                    <button onclick="closeBookToCover()" class="text-xs font-semibold text-stone-500 hover:text-rose-700 flex items-center gap-1 transition">
+                        <i class="ph ph-book-bookmark"></i>
+                        <span>Portada</span>
+                    </button>
+                </div>
+
+                <!-- Cuerpo de la Página: Diseño en 2 columnas en Desktop, 1 en Móvil -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    
+                    <!-- Columna Izquierda: Marco Polaroid con el Dibujo Original -->
+                    <div class="md:col-span-7 flex flex-col items-center">
+                        <div class="relative bg-white p-3 pb-8 rounded-xl shadow-md border border-stone-200/80 w-full max-w-md mx-auto transform -rotate-1 hover:rotate-0 transition duration-300 group">
+                            <!-- Cintas Washi Tape -->
+                            <div class="washi-tape-top-left"></div>
+                            <div class="washi-tape-top-right"></div>
+
+                            <!-- Contenedor de la Imagen / Ilustración -->
+                            <div class="relative w-full aspect-[4/3] bg-stone-100 rounded-lg overflow-hidden flex items-center justify-center cursor-zoom-in" onclick="openLightbox()">
+                                <img id="drawing-img" src="" alt="Dibujo de Alan para Agatita" class="w-full h-full object-contain transition duration-300 group-hover:scale-[1.02]" onerror="handleImageFallback()">
+                                
+                                <!-- Contenedor de Respaldo Ilustrado (si no se ha cargado el JPG local aún) -->
+                                <div id="svg-fallback-container" class="hidden w-full h-full flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-[#fffdf9] to-[#fef3e8]">
+                                    <div id="svg-illustration" class="w-36 h-36 mb-2"></div>
+                                    <p class="font-hand text-xl text-rose-800 font-bold leading-snug px-2" id="fallback-short-title"></p>
+                                    <span class="mt-1 inline-flex items-center gap-1 text-[11px] text-stone-500 bg-white/90 px-2.5 py-0.5 rounded-full border border-stone-200">
+                                        <i class="ph ph-image"></i> Archivo: <code id="fallback-filename" class="font-mono text-rose-700"></code>
+                                    </span>
+                                </div>
+
+                                <!-- Botón flotante de Lupa -->
+                                <button class="absolute bottom-2.5 right-2.5 bg-black/60 hover:bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-full backdrop-blur-xs flex items-center gap-1 opacity-90 group-hover:opacity-100 transition shadow">
+                                    <i class="ph ph-magnifying-glass-plus"></i>
+                                    <span>Ampliar dibujo</span>
+                                </button>
+                            </div>
+
+                            <!-- Pie de foto Polaroid -->
+                            <div class="mt-3 flex items-center justify-between px-1">
+                                <span id="polaroid-caption" class="font-hand text-xl text-stone-700 font-bold">
+                                    Dibujo #1 • Hecho a mano con amor
+                                </span>
+                                <button onclick="toggleLikePage()" id="heart-btn" class="text-rose-500 hover:scale-125 transition text-xl" title="Guardar en favoritos">
+                                    <i class="ph-fill ph-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Nota Manuscrita y Transcripción -->
+                    <div class="md:col-span-5 flex flex-col justify-between space-y-4">
+                        <div class="relative bg-[#fff9eb] p-5 rounded-2xl border border-amber-200/90 shadow-sm">
+                            <!-- Chincheta decorativa -->
+                            <div class="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-xs mx-auto -mt-7 mb-3 border-2 border-white"></div>
+
+                            <h3 id="page-title" class="font-script text-2xl sm:text-3xl text-rose-800 mb-2">
+                                Mi One and Only Love
+                            </h3>
+
+                            <p id="page-quote" class="font-hand text-xl sm:text-2xl text-stone-800 leading-relaxed whitespace-pre-line">
+                                "Para mí eres lo más importante. Te amo. Eres lo más bonito del mundo."
+                            </p>
+
+                            <div class="mt-4 pt-3 border-t border-amber-900/10 flex items-center justify-between">
+                                <span class="font-hand text-lg text-rose-700 font-bold">— Alan de Agatita ❤️</span>
+                                <span id="page-date-code" class="text-[11px] font-mono text-stone-400">30 Oct</span>
+                            </div>
+                        </div>
+
+                        <!-- Sello romántico decorativo -->
+                        <div class="bg-rose-50/70 border border-rose-200/60 rounded-xl p-3.5 flex items-center justify-between gap-2">
+                            <div class="text-xs text-rose-900">
+                                <p class="font-bold flex items-center gap-1">
+                                    <i class="ph-fill ph-heart text-rose-500"></i> Nuestro Universo
+                                </p>
+                                <p class="text-rose-700/80">Toca el dibujo para verlo en pantalla completa ✨</p>
+                            </div>
+                            <span class="shrink-0 px-3 py-1.5 rounded-full bg-rose-100 text-rose-700 font-hand text-base font-bold border border-rose-200">
+                                Tú y Yo ♾️
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Controles Inferiores de Navegación de Página -->
+                <div class="mt-7 pt-4 border-t border-amber-900/15 flex items-center justify-between gap-2">
+                    <button id="prev-btn" onclick="prevPage()" class="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-900 disabled:opacity-40 text-amber-100 text-xs sm:text-sm font-bold flex items-center gap-2 transition shadow-sm cursor-pointer">
+                        <i class="ph-bold ph-caret-left"></i>
+                        <span>Anterior</span>
+                    </button>
+
+                    <!-- Indicador de progreso con puntitos / barra -->
+                    <div class="flex flex-col items-center flex-1 max-w-xs mx-2">
+                        <div class="w-full h-2 bg-amber-900/10 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="h-full bg-gradient-to-r from-rose-500 to-amber-500 transition-all duration-300" style="width: 4.5%;"></div>
+                        </div>
+                        <span class="text-[11px] text-stone-500 mt-1 font-medium">Usa las flechas ⬅️ ➡️ o toca los botones</span>
+                    </div>
+
+                    <button id="next-btn" onclick="nextPage()" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition shadow-sm cursor-pointer">
+                        <span>Siguiente</span>
+                        <i class="ph-bold ph-caret-right"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer sencillo -->
+    <footer class="relative z-10 text-center py-3 text-xs text-rose-200/60">
+        Hecho con todo el amor del universo por <strong class="text-rose-200">Alan de Agatita</strong> • 2026 ✨
+    </footer>
+
+    <!-- MODAL 1: LIGHTBOX (ZOOM A PANTALLA COMPLETA DEL DIBUJO) -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+        <div class="w-full max-w-4xl flex items-center justify-between text-white mb-3">
+            <div>
+                <h4 id="lightbox-title" class="font-script text-2xl text-amber-200">Dibujo #1</h4>
+                <p id="lightbox-subtitle" class="text-xs text-stone-300"></p>
+            </div>
+            <button onclick="closeLightbox()" class="p-2 rounded-full bg-white/15 hover:bg-white/25 text-white transition">
+                <i class="ph-bold ph-x text-xl"></i>
+            </button>
+        </div>
+
+        <div class="relative w-full max-w-4xl max-h-[75vh] bg-white rounded-2xl p-3 flex items-center justify-center overflow-hidden shadow-2xl">
+            <img id="lightbox-img" src="" alt="Zoom del dibujo" class="max-h-[70vh] w-auto object-contain rounded-lg">
+            <div id="lightbox-svg-fallback" class="hidden py-12 px-6 text-center"></div>
+        </div>
+
+        <p id="lightbox-quote" class="font-hand text-2xl text-amber-100 text-center max-w-2xl mt-4"></p>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           BASE DE DATOS DE LAS 22 IMÁGENES DE TU GOOGLE DRIVE + FRASES TRANSCRITAS
+           ========================================================================== */
+        const bookPages = [
+            {
+                page: 1,
+                filename: "IMG_20261030_020242785.jpg",
+                title: "El Inicio de Nuestro Universo",
+                theme: "✨ Nuestro Amor",
+                svgType: "cats",
+                date: "30 Oct • #01",
+                quote: "Cada trazo de este libro nació pensando en tu sonrisa. Gracias por ser mi inspiración todos los días, mi Vida hermosa."
+            },
+            {
+                page: 2,
+                filename: "IMG_20261030_020251216.jpg",
+                title: "Pensando en Ti",
+                theme: "💝 Recuerdo Especial",
+                svgType: "hearts",
+                date: "30 Oct • #02",
+                quote: "No importa la hora ni el lugar, mi mente siempre encuentra el camino de regreso hacia ti."
+            },
+            {
+                page: 3,
+                filename: "IMG_20261030_020258881.jpg",
+                title: "Mi One and Only Love",
+                theme: "🌻 Girasoles para Ti",
+                svgType: "sunflower",
+                date: "30 Oct • #03",
+                quote: "\"Mi One and only love.\nPara mí eres lo más importante.\nTe amo.\nEres lo más bonito del mundo.\""
+            },
+            {
+                page: 4,
+                filename: "IMG_20261030_020306796.jpg",
+                title: "Para: Mi Vida",
+                theme: "💌 Carta de Amor",
+                svgType: "letter",
+                date: "30 Oct • #04",
+                quote: "\"De: Alan de Agatita • Para: Mi vida.\nHola mi amor, quiero que sepas que eres una persona maravillosa, eres todo lo que algún día soñé, quiero pasar mi vida junto a ti y me voy a esforzar para hacerlo realidad.\nTú le diste sentido a mi mundo.\""
+            },
+            {
+                page: 5,
+                filename: "IMG_20261030_020313615.jpg",
+                title: "Trazos desde el Corazón",
+                theme: "🎨 Dibujo con Amor",
+                svgType: "cats",
+                date: "30 Oct • #05",
+                quote: "Dibujarte y hacer detalles para ti es mi manera favorita de decirte cuánto te adoro incluso cuando las palabras no alcanzan."
+            },
+            {
+                page: 6,
+                filename: "IMG_20261030_020320592.jpg",
+                title: "Para Mi Niña Linda",
+                theme: "🌸 Dulzura",
+                svgType: "sunflower",
+                date: "30 Oct • #06",
+                quote: "Mi amor conocerte fue algo predestinado y estoy muy feliz de que el destino nos uniera."
+            },
+            {
+                page: 7,
+                filename: "IMG_20261030_020327967.jpg",
+                title: "En Esta y Todas Mis Vidas",
+                theme: "🐾 Gatitos Juntos",
+                svgType: "cats",
+                date: "30 Oct • #07",
+                quote: "\"Te quiero a mi lado en esta y todas mis vidas, Te amo.\nQuiero estar pegado a ti toda la vida, eres lo más bonito que me ha pasado, Te amo.\""
+            },
+            {
+                page: 8,
+                filename: "IMG_20261030_020334166.jpg",
+                title: "Despertar Todos los Días Contigo",
+                theme: "💍 Nuestra Promesa",
+                svgType: "letter",
+                date: "30 Oct • #08",
+                quote: "\"Te amo / I love you.\nA menudo sueño con el día en el que estemos juntos. Eres lo que me motiva día a día a seguir adelante...\n¿Te gustaría pasar nuestras vidas juntas? Eres con quien quiero despertar todos los días, eres lo más importante para mí. Te amo.\""
+            },
+            {
+                page: 9,
+                filename: "IMG_20261030_020342768.jpg",
+                title: "Nuestro Rincón Secreto",
+                theme: "✨ Ilustración",
+                svgType: "universe",
+                date: "30 Oct • #09",
+                quote: "Un pequeño recuerdo dibujado a mano para recordarte que siempre estoy contigo, cuidándote y amandote."
+            },
+            {
+                page: 10,
+                filename: "IMG_20261030_020350099.jpg",
+                title: "Latidos en Papel",
+                theme: "❤️ Amor Puro",
+                svgType: "hearts",
+                date: "30 Oct • #10",
+                quote: "Si pudiera pedir un solo deseo cada noche, sería repetir nuestra historia una y mil veces más."
+            },
+            {
+                page: 11,
+                filename: "IMG_20261030_020357069.jpg",
+                title: "La Luna, el Sol y Tú",
+                theme: "🌙 Gatito y Luna",
+                svgType: "mooncat",
+                date: "30 Oct • #11",
+                quote: "\"Love u ❤️\nLa luna ilumina la noche,\nel sol ilumina el día\ny tú iluminas mi vida.\nTe amo.\""
+            },
+            {
+                page: 12,
+                filename: "IMG_20261030_020404036.jpg",
+                title: "Tú y Yo en Cada Eternidad",
+                theme: "♾️ Eternidad",
+                svgType: "universe",
+                date: "30 Oct • #12",
+                quote: "\"Te Amo.\nY más de lo que puedas imaginar, más de lo que se puede explicar.\nEs tan especial nuestro amor porque tú y yo hacemos único nuestro amor, tú y yo en cada eternidad.\""
+            },
+            {
+                page: 13,
+                filename: "IMG_20261030_020410085.jpg",
+                title: "Cada Detalle Lleva Tu Nombre",
+                theme: "🌻 Flores Amarillas",
+                svgType: "sunflower",
+                date: "30 Oct • #13",
+                quote: "Como un girasol buscando la luz del sol, así mis ojos te buscan siempre a ti."
+            },
+            {
+                page: 14,
+                filename: "IMG_20261030_020415832.jpg",
+                title: "Siempre de Tu Mano",
+                theme: "🐾 Compañeros",
+                svgType: "cats",
+                date: "30 Oct • #14",
+                quote: "Contigo aprendí que el hogar no es un lugar en el mapa, sino estar junto a ti."
+            },
+            {
+                page: 15,
+                filename: "IMG_20261030_020422397.jpg",
+                title: "Mi Persona Favorita",
+                theme: "💖 Para Agatita",
+                svgType: "hearts",
+                date: "30 Oct • #15",
+                quote: "Gracias por escucharme, por entenderme y por hacerme sentir el chico más afortunado del planeta."
+            },
+            {
+                page: 16,
+                filename: "IMG_20261030_020429547.jpg",
+                title: "Nuestro Camino Juntos",
+                theme: "🌟 Sueños",
+                svgType: "mooncat",
+                date: "30 Oct • #16",
+                quote: "Paso a paso, dibujo a dibujo, construyendo el futuro tan bonito que nos espera a los dos."
+            },
+            {
+                page: 17,
+                filename: "IMG_20261030_020434560.jpg",
+                title: "Sin Miedo a Nada Contigo",
+                theme: "🛡️ Valentía y Amor",
+                svgType: "letter",
+                date: "30 Oct • #17",
+                quote: "\"No sé qué nos depare el futuro, pero mientras esté contigo, no le tengo miedo a nada.\nTe amo.\""
+            },
+            {
+                page: 18,
+                filename: "IMG_20261030_020439853.jpg",
+                title: "Promesas en Tinta",
+                theme: "💌 Dedicatoria",
+                svgType: "hearts",
+                date: "30 Oct • #18",
+                quote: "Todo lo que escribo aquí queda guardado como promesa de todo el amor que tengo para darte."
+            },
+            {
+                page: 19,
+                filename: "IMG_20261030_020445302.jpg",
+                title: "Contigo Todo Brilla",
+                theme: "🌻 Mi Alegría",
+                svgType: "sunflower",
+                date: "30 Oct • #19",
+                quote: "Incluso en los días grises, basta un mensaje tuyo o escuchar tu voz para que salga el sol."
+            },
+            {
+                page: 20,
+                filename: "IMG_20261030_020452737.jpg",
+                title: "Got Youniverse • 운명을 느껴 널",
+                theme: "🌌 Youniverse",
+                svgType: "universe",
+                date: "30 Oct • #20",
+                quote: "\"Been calling your name in this whole universe,\nnow I need no space, got Youniverse.\nDeambulé por mucho tiempo, estuve perdido. Fuiste tú quien me guio por este laberinto. Eres mi luz, mi salvación.\n운명을 느껴 널 (Siento el destino en ti).\""
+            },
+            {
+                page: 21,
+                filename: "IMG_20261031_020816801.jpg",
+                title: "Más Allá del Tiempo",
+                theme: "🌙 Noche Mágica",
+                svgType: "mooncat",
+                date: "31 Oct • #21",
+                quote: "Cada noche antes de dormir le agradezco al universo por haber cruzado nuestros caminos."
+            },
+            {
+                page: 22,
+                filename: "IMG_20261031_211720870.jpg",
+                title: "El Inicio de Nuestra Historia",
+                theme: "❤️ Por Siempre",
+                svgType: "cats",
+                date: "31 Oct • #22",
+                quote: "Este es el último dibujo de esta carpeta, pero apenas la primera página de toda nuestra vida juntos. ¡Te amo infinitamente, mi Pedacito de Cielo!"
+            }
+        ];
+
+        const likedPages = new Set();
+        let currentIndex = 0;
+        let soundEnabled = true;
+        const bookSongs = [
+            {
+                title: "With You",
+                filename: "Jimin x Ha Sung Woon - With You Sub español Lyrics 우리들의 블루스(Our Blues) OST Part 4.mp3"
+            },
+            {
+                title: "Wild Flower",
+                filename: "RM (BTS), YOUJEEN – Wild Flower Sub. Español + Vídeo Oficial.mp3"
+            },
+            {
+                title: "Heartbeat",
+                filename: "BTS - Heartbeat (Traducida al Español).mp3"
+            }
+        ];
+        let currentSongIndex = 0;
+        let pathAttemptStage = 0; // 0: ./FILENAME, 1: ./img/FILENAME, 2: ./fotos/FILENAME, 3: fallback SVG
+
+        /* ==========================================================================
+           SINTETIZADOR DE SONIDO DE PÁGINA (Web Audio API - Sin archivos externos)
+           ========================================================================== */
+        let audioCtx = null;
+        function playPageFlipSound() {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                // Ruido suave filtrado que simula el roce de una hoja de papel
+                const duration = 0.14;
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.sin((i / bufferSize) * Math.PI);
+                }
+
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(1100, audioCtx.currentTime);
+                filter.Q.setValueAtTime(1.8, audioCtx.currentTime);
+
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.005, audioCtx.currentTime + duration);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                noise.start();
+            } catch (e) {
+                // Ignorar si el navegador bloquea el audio antes de interacción
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('sound-icon');
+            icon.className = soundEnabled ? 'ph-fill ph-speaker-high text-base' : 'ph-fill ph-speaker-slash text-base text-rose-400';
+        }
+
+        /* ==========================================================================
+           ILUSTRACIONES VECTORIALES DE RESPALDO (Por si se abre sin las fotos aún)
+           ========================================================================== */
+        function getThemeSvg(type) {
+            switch (type) {
+                case 'sunflower':
+                    return `
+                    <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-xs">
+                        <circle cx="80" cy="80" r="68" fill="#fef3c7"/>
+                        <g stroke="#f59e0b" stroke-width="10" stroke-linecap="round">
+                            <line x1="80" y1="16" x2="80" y2="144"/>
+                            <line x1="16" y1="80" x2="144" y2="80"/>
+                            <line x1="35" y1="35" x2="125" y2="125"/>
+                            <line x1="125" y1="35" x2="35" y2="125"/>
+                        </g>
+                        <circle cx="80" cy="80" r="36" fill="#facc15"/>
+                        <circle cx="80" cy="80" r="22" fill="#78350f"/>
+                        <circle cx="73" cy="74" r="3" fill="#fef08a"/>
+                    </svg>`;
+                case 'mooncat':
+                    return `
+                    <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-xs">
+                        <circle cx="80" cy="80" r="68" fill="#1e1b4b"/>
+                        <path d="M95 30 A45 45 0 1 0 135 100 A36 36 0 1 1 95 30 Z" fill="#fde047"/>
+                        <circle cx="45" cy="50" r="2.5" fill="#fef08a"/>
+                        <circle cx="65" cy="35" r="2" fill="#f472b6"/>
+                        <circle cx="72" cy="96" r="14" fill="#f8fafc"/>
+                        <polygon points="60,88 63,74 71,84" fill="#f8fafc"/>
+                        <polygon points="84,88 81,74 73,84" fill="#f8fafc"/>
+                        <path d="M56 122 C56 102, 88 102, 88 122 Z" fill="#f8fafc"/>
+                    </svg>`;
+                case 'universe':
+                    return `
+                    <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-xs">
+                        <circle cx="80" cy="80" r="68" fill="#31102f"/>
+                        <ellipse cx="80" cy="80" rx="58" ry="22" transform="rotate(-22 80 80)" fill="none" stroke="#f472b6" stroke-width="4" stroke-dasharray="6 4"/>
+                        <circle cx="80" cy="80" r="26" fill="#ec4899"/>
+                        <path d="M80 68 C80 62, 70 58, 70 66 C70 72, 80 78, 80 82 C80 78, 90 72, 90 66 C90 58, 80 62, 80 68 Z" fill="#fff"/>
+                        <circle cx="38" cy="48" r="3" fill="#fde047"/>
+                        <circle cx="122" cy="110" r="3.5" fill="#fde047"/>
+                    </svg>`;
+                case 'letter':
+                    return `
+                    <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-xs">
+                        <circle cx="80" cy="80" r="68" fill="#ffe4e6"/>
+                        <rect x="32" y="48" width="96" height="68" rx="8" fill="#ffffff" stroke="#f43f5e" stroke-width="3"/>
+                        <polyline points="34,50 80,88 126,50" fill="none" stroke="#f43f5e" stroke-width="3"/>
+                        <path d="M80 78 C80 72, 70 68, 70 76 C70 82, 80 88, 80 92 C80 88, 90 82, 90 76 C90 68, 80 72, 80 78 Z" fill="#e11d48"/>
+                    </svg>`;
+                default: // 'cats' o 'hearts'
+                    return `
+                    <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-xs">
+                        <circle cx="80" cy="80" r="68" fill="#fff1f2"/>
+                        <circle cx="65" cy="92" r="16" fill="#78716c"/>
+                        <polygon points="51,83 54,68 63,79" fill="#78716c"/>
+                        <polygon points="79,83 76,68 67,79" fill="#78716c"/>
+                        <circle cx="97" cy="95" r="15" fill="#fb923c"/>
+                        <polygon points="85,86 88,72 95,82" fill="#fb923c"/>
+                        <polygon points="109,86 106,72 99,82" fill="#fb923c"/>
+                        <path d="M80 54 C80 46, 68 42, 68 51 C68 59, 80 66, 80 72 C80 66, 92 59, 92 51 C92 42, 80 46, 80 54 Z" fill="#e11d48"/>
+                    </svg>`;
+            }
+        }
+
+        /* ==========================================================================
+           NAVEGACIÓN Y RENDERIZADO DEL LIBRO
+           ========================================================================== */
+        function openBook() {
+            playPageFlipSound();
+            const player = document.getElementById('book-song');
+            currentSongIndex = 0;
+            player.src = encodeURI(`./${bookSongs[currentSongIndex].filename}`);
+            player.volume = 0.1;
+            document.getElementById('book-song-title').textContent = bookSongs[currentSongIndex].title;
+            document.getElementById('cover-view').classList.add('hidden');
+            document.getElementById('book-view').classList.remove('hidden');
+            renderCurrentPage();
+            player.play().catch(() => {
+                document.getElementById('book-song-title').textContent += " • Presiona reproducir";
+            });
+        }
+
+        function closeBookToCover() {
+            playPageFlipSound();
+            const player = document.getElementById('book-song');
+            player.pause();
+            player.removeAttribute('src');
+            player.load();
+            document.getElementById('book-view').classList.add('hidden');
+            document.getElementById('cover-view').classList.remove('hidden');
+        }
+
+        document.getElementById('book-song').addEventListener('ended', () => {
+            currentSongIndex = (currentSongIndex + 1) % bookSongs.length;
+            const player = document.getElementById('book-song');
+            player.src = encodeURI(`./${bookSongs[currentSongIndex].filename}`);
+            player.volume = 0.1;
+            document.getElementById('book-song-title').textContent = bookSongs[currentSongIndex].title;
+            player.play().catch(() => {
+                document.getElementById('book-song-title').textContent += " • Presiona reproducir";
+            });
+        });
+
+        function renderCurrentPage(direction = null) {
+            const item = bookPages[currentIndex];
+            const card = document.getElementById('page-card');
+
+            if (direction) {
+                card.classList.remove('page-flip-next', 'page-flip-prev');
+                void card.offsetWidth; // Reiniciar animación CSS
+                card.classList.add(direction === 'next' ? 'page-flip-next' : 'page-flip-prev');
+            }
+
+            // Actualizar textos y etiquetas
+            document.getElementById('page-badge').textContent = `Página ${item.page} de ${bookPages.length}`;
+            document.getElementById('page-theme-tag').textContent = item.theme;
+            document.getElementById('page-title').textContent = item.title;
+            document.getElementById('page-quote').textContent = item.quote;
+            document.getElementById('page-date-code').textContent = item.date;
+            document.getElementById('polaroid-caption').textContent = `Dibujo #${item.page} • Alan de Agatita`;
+
+            // Estado del botón de corazón
+            const heartBtn = document.getElementById('heart-btn');
+            heartBtn.className = likedPages.has(item.page)
+                ? 'text-rose-600 scale-110 transition text-xl'
+                : 'text-stone-300 hover:text-rose-400 transition text-xl';
+
+            // Barra de progreso
+            const pct = ((currentIndex + 1) / bookPages.length) * 100;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+
+            // Estado botones Anterior / Siguiente
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').innerHTML = currentIndex === bookPages.length - 1
+                ? `<span>Volver a Portada</span> <i class="ph-bold ph-book-bookmark"></i>`
+                : `<span>Siguiente</span> <i class="ph-bold ph-caret-right"></i>`;
+
+            // Cargar la imagen correspondiente
+            loadPageImage(item);
+        }
+
+        function loadPageImage(item) {
+            const imgEl = document.getElementById('drawing-img');
+            const fallbackBox = document.getElementById('svg-fallback-container');
+
+            imgEl.classList.remove('hidden');
+            fallbackBox.classList.add('hidden');
+            pathAttemptStage = 0;
+
+            // Intento 1: En la misma carpeta junto a index.html (./IMG_20261030_...jpg)
+            imgEl.src = `./${item.filename}`;
+        }
+
+        function handleImageFallback() {
+            const item = bookPages[currentIndex];
+            const imgEl = document.getElementById('drawing-img');
+            const fallbackBox = document.getElementById('svg-fallback-container');
+
+            if (pathAttemptStage === 0) {
+                // Intento 2: Subcarpeta ./img/IMG_20261030_...jpg
+                pathAttemptStage = 1;
+                imgEl.src = `./img/${item.filename}`;
+            } else if (pathAttemptStage === 1) {
+                // Intento 3: Subcarpeta ./fotos/IMG_20261030_...jpg
+                pathAttemptStage = 2;
+                imgEl.src = `./fotos/${item.filename}`;
+            } else {
+                // Mostrar tarjeta ilustrada de respaldo
+                imgEl.classList.add('hidden');
+                fallbackBox.classList.remove('hidden');
+                document.getElementById('svg-illustration').innerHTML = getThemeSvg(item.svgType);
+                document.getElementById('fallback-short-title').textContent = item.title;
+                document.getElementById('fallback-filename').textContent = item.filename;
+            }
+        }
+
+        function nextPage() {
+            playPageFlipSound();
+            if (currentIndex < bookPages.length - 1) {
+                currentIndex++;
+                renderCurrentPage('next');
+            } else {
+                closeBookToCover();
+            }
+        }
+
+        function prevPage() {
+            if (currentIndex > 0) {
+                playPageFlipSound();
+                currentIndex--;
+                renderCurrentPage('prev');
+            }
+        }
+
+        function toggleLikePage() {
+            const pageNum = bookPages[currentIndex].page;
+            if (likedPages.has(pageNum)) {
+                likedPages.delete(pageNum);
+            } else {
+                likedPages.add(pageNum);
+            }
+            renderCurrentPage();
+        }
+
+        /* ==========================================================================
+           LIGHTBOX (ZOOM DEL DIBUJO)
+           ========================================================================== */
+        function openLightbox() {
+            const item = bookPages[currentIndex];
+            const modal = document.getElementById('lightbox-modal');
+            const imgEl = document.getElementById('drawing-img');
+            const lightImg = document.getElementById('lightbox-img');
+            const lightSvg = document.getElementById('lightbox-svg-fallback');
+
+            document.getElementById('lightbox-title').textContent = `Página ${item.page}: ${item.title}`;
+            document.getElementById('lightbox-subtitle').textContent = item.theme;
+            document.getElementById('lightbox-quote').textContent = item.quote;
+
+            if (!imgEl.classList.contains('hidden')) {
+                lightImg.src = imgEl.src;
+                lightImg.classList.remove('hidden');
+                lightSvg.classList.add('hidden');
+            } else {
+                lightImg.classList.add('hidden');
+                lightSvg.classList.remove('hidden');
+                lightSvg.innerHTML = `<div class="w-48 h-48 mx-auto mb-3">${getThemeSvg(item.svgType)}</div>`;
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        /* ==========================================================================
+           PARTÍCULAS FLOTANTES Y SOPORTE DE TECLADO
+           ========================================================================== */
+        function createFloatingParticles() {
+            const container = document.getElementById('particles-container');
+            const symbols = ['❤️', '🌻', '✨', '🐾', '🌙', '💖'];
+            for (let i = 0; i < 18; i++) {
+                const span = document.createElement('span');
+                span.className = 'floating-particle select-none';
+                span.textContent = symbols[i % symbols.length];
+                span.style.left = `${Math.random() * 96}vw`;
+                span.style.fontSize = `${12 + Math.random() * 14}px`;
+                span.style.animationDuration = `${12 + Math.random() * 16}s`;
+                span.style.animationDelay = `-${Math.random() * 15}s`;
+                container.appendChild(span);
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            const bookVisible = !document.getElementById('book-view').classList.contains('hidden');
+            if (!bookVisible) return;
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        window.onload = () => {
+            createFloatingParticles();
+        };
+    </script>
+</body>
+</html>
